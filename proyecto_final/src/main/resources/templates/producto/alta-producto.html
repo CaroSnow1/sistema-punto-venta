@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<header th:replace="~{plantillas/plantilla :: header}"></header>
+<main class="container text-center opacity-75 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+    <!-- div th:text="${#authentication}"></div-->
+    <!-- Alta de Producto -->
+    <h1 class="card-header"><strong><p th:text="${contenido}"></p></strong></h1>
+    <div class="card-body">
+        <h1 class="modal-title fs-5">Información del Producto: </h1>
+        <hr>
+        <form th:action="@{/producto/salvar-producto}" th:object="${producto}" method="post">
+            <div class="d-flex align-items-center flex-column mb-3 gx-5">
+                <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role="alert">
+                    Verifique los siguientes errores
+                    <ul>
+                        <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+                    </ul>
+                </div>
+
+                <!-- Primer renglón: Código y Nombre -->
+                <div class="row mb-3 w-100 justify-content-center">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="codigo" class="float-start"><i class="fas fa-barcode"></i> Código:</label>
+                            <input type="text" class="form-control" id="codigo" name="codigo"
+                                   placeholder="Código de barras" required="required"
+                                   th:value="${producto.codigo}">
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="nombre" class="float-start">Nombre:</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre"
+                                   placeholder="Nombre del producto" th:field="*{nombre}">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Segundo renglón: Stock y Precio Compra -->
+                <div class="row mb-3 w-100 justify-content-center">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="stock" class="float-start">Stock:</label>
+                            <input type="text" class="form-control" id="stock" name="stock"
+                                   placeholder="Cantidad de stock" required="required"
+                                   th:value="${producto.stock}">
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="costoCompra" class="float-start">Precio Compra:</label>
+                            <input type="text" class="form-control" id="costoCompra" name="costoCompra"
+                                   placeholder="Precio de compra por unidad" required="required"
+                                   th:value="${producto.costoCompra}">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tercer renglón: Precio Venta y Categoria -->
+                <div class="row mb-3 w-100 justify-content-center">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="precioVenta" class="float-start">Precio Venta:</label>
+                            <input type="text" class="form-control" id="precioVenta" name="precioVenta"
+                                   placeholder="Precio de venta por unidad" required="required"
+                                   th:value="${producto.precioVenta}">
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="categoria" class="float-start">Categoria: </label>
+                            <select class="form-select" th:field="*{categoria}" id="categoria" name="categoria" required>
+                                <option th:each="sel : ${selectCategoria}" th:value="${sel.idCategoria}" th:text="${sel.nombreCategoria}"/>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botón Guardar centrado -->
+                <div class="row w-100 justify-content-center">
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100"><i class="far fa-plus-square"></i> Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</main>
+<footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+</body>
+</html>

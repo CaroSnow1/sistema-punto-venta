@@ -1,0 +1,71 @@
+<!-- Modal Cancelar Producto -->
+<div th:fragment="modalCancelarProducto">
+    <div class="modal fade" id="modalCancelarProducto" tabindex="-1" aria-labelledby="modalCancelarProductoLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCancelarProductoLabel">Cancelar Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Búsqueda de producto -->
+                    <div class="mb-3">
+                        <label for="codigoProductoCancelar" class="form-label"><i class="fas fa-barcode"></i> Código del Producto:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="codigoProductoCancelar" name="codigoProductoCancelar"
+                                   placeholder="Ingrese el código del producto" aria-describedby="btnBuscar">
+                            <button class="btn btn-outline-btn-primary" type="button" id="btnBuscar" onclick="buscarProducto()">Buscar</button>
+                        </div>
+                    </div>
+
+                    <!-- Detalles del producto -->
+                    <p class="form-label text-danger"><i class="fas fa-exclamation-circle"></i> Verifique el producto a cancelar:</p>
+                    <div class="mb-4">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Descripción</th>
+                                    <th>Cant.</th>
+                                </tr>
+                                </thead>
+                                <tbody id="resultadoBusqueda">
+                                <!-- Resultados dinámicos -->
+                                <tr>
+                                    <td id="detalleCodigo"></td>
+                                    <td id="detalleDescripcion"></td>
+                                    <td id="detalleCantidad"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div class="h4 pb-2 mb-4 text-center text-secondary border-bottom border-secondary border-opacity-25">
+                        <i class="fas fa-user-lock"></i> Aprobación Gerente
+                    </div>
+                    <form action="#" th:action="@{/venta/cancelarProducto}" method="post">
+                        <input type="hidden" name="codigoProducto" id="hiddenCodigoProductoCancelar">
+                        <div class="mb-3">
+                            <label for="usernameGerente" class="form-label">Usuario del Gerente:</label>
+                            <input type="text" class="form-control" id="usernameGerente" name="usernameGerente"
+                                   placeholder="Ingrese el usuario del gerente" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="passwordGerente" class="form-label">Contraseña del Gerente:</label>
+                            <input type="password" class="form-control" id="passwordGerente" name="passwordGerente"
+                                   placeholder="Ingrese la contraseña del gerente" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-danger">Confirmar Cancelación</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<header th:replace="~{plantillas/plantilla :: header}"></header>
+<main class="container text-center opacity-75 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+    <h1 class="card-header"><strong><p th:text="${contenido}"></p></strong></h1>
+    <form th:action="@{/usuario/alta-usuario}" method="post">
+        <!-- Mensajes de error -->
+        <!--div th:if="${#fields.hasErrors('*')}" class="alert alert-danger" role="alert">
+            <ul>
+                <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+            </ul>
+        </div-->
+        <h1 class="modal-title fs-5 mt-2">Información del usuario: </h1>
+        <hr>
+
+        <!-- Campo Usuario -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="username" class="form-label"><i class="fas fa-user"></i> Nombre de Usuario (Username)</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Nombre de usuario" required>
+            </div>
+            <div class="col-md-6">
+                <label for="usuPassword" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="usuPassword" name="usuPassword" placeholder="Contraseña" required>
+            </div>
+        </div>
+
+        <!-- Campos para Nombre y Apellidos -->
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre completo" required>
+            </div>
+            <div class="col-md-4">
+                <label for="apPaterno" class="form-label">Apellido Paterno</label>
+                <input type="text" class="form-control" id="apPaterno" name="apPaterno" placeholder="Apellido paterno" required>
+            </div>
+            <div class="col-md-4">
+                <label for="apMaterno" class="form-label">Apellido Materno</label>
+                <input type="text" class="form-control" id="apMaterno" name="apMaterno" placeholder="Apellido materno">
+            </div>
+        </div>
+
+        <!-- Campos para Rol -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="usuRol" class="form-label">Rol</label>
+                <select id="usuRol" name="usuRol" class="form-select" required>
+                    <option value="GERENTE">Gerente</option>
+                    <option value="CAJERO">Cajero</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Campos Horario -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="horarioEntrada" class="form-label">Horario de Entrada</label>
+                <input type="time" class="form-control" id="horarioEntrada" name="horarioEntrada" required>
+            </div>
+            <div class="col-md-6">
+                <label for="horarioSalida" class="form-label">Horario de Salida</label>
+                <input type="time" class="form-control" id="horarioSalida" name="horarioSalida" required>
+            </div>
+        </div>
+
+        <!-- Campo para Género -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="genero" class="form-label">Género</label>
+                <select id="genero" name="genero" class="form-select" required>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                    <option value="N">No especificado</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Botón Guardar -->
+        <div class="row">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary">Guardar Usuario</button>
+            </div>
+        </div>
+    </form>
+</main>
+<footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+</body>
+</html>

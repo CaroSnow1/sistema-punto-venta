@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<header th:replace="~{plantillas/plantilla :: header}"></header>
+<main class="container text-center opacity-75 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+    <h1 class="card-header"><strong><p th:text="${contenido}"></p></strong></h1>
+    <form th:action="@{/usuario/confirmar-baja-usuario}" th:object="${usuario}" method="post">
+        <!-- Campo ID Usuario (oculto) -->
+        <input type="hidden" th:field="*{idUsuario}" value="${usuario.idUsuario}">
+
+        <!-- Información del Usuario -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label"><strong>Usuario:</strong></label>
+                <p th:text="${usuario.username}" class="form-control-plaintext"></p>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label"><strong>Nombre Completo:</strong></label>
+                <p th:text="${usuario.nombre + ' ' + usuario.apPaterno + ' ' + usuario.apMaterno}" class="form-control-plaintext"></p>
+            </div>
+        </div>
+
+        <!-- Información Adicional -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label"><strong>Rol:</strong></label>
+                <p th:text="${usuario.usuRol}" class="form-control-plaintext"></p>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label"><strong>Estado Actual:</strong></label>
+                <p th:text="${usuario.usuStatus == 0 ? 'Inactivo' : (usuario.usuStatus == 1 ? 'Activo' : 'Baja')}"
+                   class="form-control-plaintext"></p>
+            </div>
+        </div>
+
+        <!-- Confirmación -->
+        <div class="alert alert-warning text-center" role="alert">
+            <p>¿Estás seguro que deseas dar de baja a este usuario?</p>
+        </div>
+
+        <!-- Botones de Acción -->
+        <div class="row">
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-danger w-100">Confirmar Baja</button>
+            </div>
+            <div class="col-md-6">
+                <a th:href="@{/usuario/gestionar-usuario}" class="btn btn-secondary w-100">Cancelar</a>
+            </div>
+        </div>
+    </form>
+</main>
+<footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+</body>
+</html>

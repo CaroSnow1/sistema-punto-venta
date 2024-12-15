@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<header th:replace="~{plantillas/plantilla :: header}"></header>
+<main class="container text-center opacity-75 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+    <h1 class="card-header"><strong><p th:text="${contenido}"></p></strong></h1>
+    <div class="card-body">
+        <!-- Agregado para verificar -->
+        <!--div th:text="${#authentication}"></div-->
+
+        <h1 class="modal-title fs-5">Información de la Categoría: </h1>
+        <hr>
+        <form th:action="@{/categoria/salvar-categoria}" th:object="${categoria}" method="post">
+            <div class="d-flex align-items-center flex-column mb-3 gx-5">
+                <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role="alert">
+                    Verifique los siguientes errores
+                    <ul>
+                        <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+                    </ul>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="nombreCategoria" class="form-label float-start">Nombre:</label>
+                        <input type="text" class="form-control" id="nombreCategoria" name="nombreCategoria" placeholder="Nombre del tipo"  th:field="*{nombreCategoria}">
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="catStatus" class="form-label float-start">Estatus:</label>
+                        <select id="catStatus" name="catStatus" th:field="*{catStatus}" class="form-select">
+                            <option value="ACTIVO" th:selected="${categoria.catStatus == 'ACTIVO' or categoria.catStatus == null}">Activo</option>
+                            <option value="INACTIVO" th:selected="${categoria.catStatus == 'INACTIVO'}">Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+                <!--ID-->
+                <input type="hidden" name="idCategoria" th:value="${categoria.idCategoria}"/>
+                <div class="col-md-2">
+                    <br/>
+                    <button type="submit" class="btn btn-primary"><i class="far fa-plus-square"></i> Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</main>
+<footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+</body>
+</html>

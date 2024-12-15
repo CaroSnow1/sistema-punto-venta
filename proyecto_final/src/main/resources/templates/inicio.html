@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<header th:replace="~{plantillas/plantilla :: header}"></header>
+
+<main class="container text-center shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+  <!-- Banner Público -->
+  <section class="banner mb-5">
+    <h1>¡Bienvenido al Sistema de Punto de Venta!</h1>
+  </section>
+
+  <!-- Información Principal -->
+  <section>
+    <h2 class="lead">Gestiona tus ventas de manera rápida, fácil y segura.</h2>
+  </section>
+  <section class="info-card mt-5 bg-light">
+    <div class="card-body">
+      <h5 class="card-title"><i class="fas fa-calendar-alt"></i> Fecha</h5>
+      <p class="card-text" th:text="${fecha}">[Fecha aquí]</p>
+    </div>
+  </section>
+</main>
+
+<footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+</body>
+</html>

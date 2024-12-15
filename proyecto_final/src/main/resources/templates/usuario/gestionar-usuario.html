@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<header th:replace="~{plantillas/plantilla :: header}"></header>
+<main class="container text-center opacity-75 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+    <!-- TÍTULO -->
+    <h1 th:text="${contenido}" class="mb-2"></h1>
+
+    <!-- FILTRO POR ROL -->
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="modal-title fs-5 mb-1">Total de usuarios: <span th:text="${totalUsuarios}"></span></h1>
+        </div>
+        <div class="d-flex align-items-center">
+            <label for="rol" class="form-label me-2">Filtrar por Rol:</label>
+            <form th:action="@{/usuario/gestionar-usuario}" method="get" class="mb-3 mt-3">
+                <select id="rol" name="rol" class="form-select" onchange="this.form.submit()">
+                    <option value="" th:selected="${rolSeleccionado == null}">Todos los roles</option>
+                    <option value="GERENTE" th:selected="${rolSeleccionado == 'GERENTE'}">Gerente</option>
+                    <option value="CAJERO" th:selected="${rolSeleccionado == 'CAJERO'}">Cajero</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+    <!-- TABLA DE USUARIOS -->
+    <table th:if="${!usuarios.isEmpty()}" class="table table-striped table-hover table-sm mt-3">
+        <thead class="table-dark table-bordered">
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Nombre Completo</th>
+            <th>Rol</th>
+            <th>Estado</th>
+            <th>Horario Entrada</th>
+            <th>Horario Salida</th>
+            <th>Operaciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="usuario : ${usuarios}">
+            <td th:text="${usuario.idUsuario}"></td>
+            <td th:text="${usuario.username}"></td>
+            <td th:text="${usuario.nombre + ' ' + usuario.apPaterno + ' ' + usuario.apMaterno}"></td>
+            <td th:text="${usuario.usuRol}"></td>
+            <td>
+                <span th:text="${usuario.usuStatus == 0 ? 'Inactivo' : (usuario.usuStatus == 1 ? 'Activo' : 'Baja')}"
+                      th:classappend="${usuario.usuStatus == 1 ? 'badge text-bg-success' : 'badge text-bg-danger'}">
+                </span>
+            </td>
+            <td th:text="${#dates.format(usuario.horarioEntrada, 'HH:mm')}"></td>
+            <td th:text="${#dates.format(usuario.horarioSalida, 'HH:mm')}"></td>
+            <td>
+                <a th:href="@{/usuario/editar-usuario/{id} (id=${usuario.idUsuario})}" class="btn btn-primary btn-sm">Editar</a>
+                <a th:href="@{/usuario/baja-usuario/{id} (id=${usuario.idUsuario})}" class="btn btn-danger btn-sm">Dar de Baja</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Paginación -->
+    <nav th:replace="~{plantillas/pag-nav::paginador}"></nav>
+</main>
+<footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+</body>
+</html>

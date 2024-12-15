@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <!-- INICIO -->
+        <a class="navbar navbar-brand" style="color:white"><i class="fas fa-store"></i> Punto
+                deVenta</a>
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+<br/>
+<br/>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div th:if="${param.error}">
+                <div class="alert alert-danger">Invalid Username or Password</div>
+            </div>
+            <div th:if="${param.logout}">
+                <div class="alert alert-success">You have been logged out.</div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">Login</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" role="form" th:action="@{/token}" class="form-horizontal">
+                        <!-- form method="post" role="form" th:action="@{/doLogin}" class="form-horizontal" -->
+                        <div class="form-group mb-3">
+                            <label class="control-label"> Username</label>
+                            <input type="text" id="username" name="username" class="form-control" placeholder="Enter username"/>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="control-label"> Password</label>
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Enter password"/>
+                        </div>
+                        <div class="form-group mb-3">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+</body>
+</html>

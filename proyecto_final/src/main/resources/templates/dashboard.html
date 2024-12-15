@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<header th:replace="~{plantillas/plantilla :: header}"></header>
+
+<main class="container text-center shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+    <!-- Información Principal -->
+    <section>
+        <h1>Bienvenido al Dashboard</h1>
+        <h2 class="lead">Accede rápidamente a las funcionalidades principales del sistema.</h2>
+    </section>
+
+    <!-- Acciones principales -->
+    <section class="opacity-75 my-5">
+        <div class="row">
+            <div class="col-md-3" sec:authorize="hasRole('CAJERO')">
+                <a th:href="@{/venta/registrar-venta}" class="text-decoration-none">
+                    <div class="card shadow-lg text-center">
+                        <div class="card-body">
+                            <i class="fas fa-cart-plus fa-3x mb-3 text-primary"></i>
+                            <h5 class="card-title">Registrar Venta</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3" sec:authorize="hasRole('CAJERO') or hasRole('GERENTE')">
+                <a th:href="@{/producto/lista-producto}" class="text-decoration-none">
+                    <div class="card shadow-lg text-center">
+                        <div class="card-body">
+                            <i class="fas fa-box fa-3x mb-3 text-success"></i>
+                            <h5 class="card-title">Gestión de Productos</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3" sec:authorize="hasRole('CAJERO') or hasRole('GERENTE')">
+                <a th:href="@{/categoria/lista-categoria}" class="text-decoration-none">
+                    <div class="card shadow-lg text-center">
+                        <div class="card-body">
+                            <i class="fas fa-tags fa-3x mb-3 text-warning"></i>
+                            <h5 class="card-title">Categorías</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3" sec:authorize="hasRole('GERENTE')">
+                <a th:href="@{/reportes/ventas}" class="text-decoration-none">
+                    <div class="card shadow-lg text-center">
+                        <div class="card-body">
+                            <i class="fas fa-chart-line fa-3x mb-3 text-danger"></i>
+                            <h5 class="card-title">Reportes de Ventas</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3" sec:authorize="hasRole('GERENTE')">
+                <a th:href="@{/corte-caja/consultar-corte}" class="text-decoration-none">
+                    <div class="card shadow-lg text-center">
+                        <div class="card-body">
+                            <i class="fas fa-cash-register fa-3x mb-3 text-primary"></i>
+                            <h5 class="card-title">Consultar Cortes</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3" sec:authorize="hasRole('CAJERO')">
+                <a th:href="@{/corte-caja/generar-corte}" class="text-decoration-none">
+                    <div class="card shadow-lg text-center">
+                        <div class="card-body">
+                            <i class="fas fa-cash-register fa-3x mb-3 text-primary"></i>
+                            <h5 class="card-title">Generar Corte</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+</body>
+</html>

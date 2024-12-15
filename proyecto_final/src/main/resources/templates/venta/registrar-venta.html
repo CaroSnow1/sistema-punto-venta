@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<header th:replace="~{plantillas/plantilla :: header}"></header>
+
+<main class="container text-center shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+    <!-- Agregado para verificar -->
+    <!--div th:text="${#authentication}"></div-->
+    <!-- REGISTRAR VENTA-->
+    <h5 th:text="${contenido}"></h5>
+    <div class="col-md-3">
+        <label for="nVenta" class="form-label">N° venta:</label>
+        <input type="text" class="form-control" id="nVenta" name="nVenta" th:value="${venta.idVenta}" readonly>
+    </div>
+    <div class="container my-2">
+        <!-- Búsqueda de producto -->
+        <form action="#" th:action="@{/venta/agregarProducto}" method="post">
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label for="codigo" class="form-label"><i class="fas fa-barcode"></i> Código:</label>
+                    <input type="text" class="form-control" id="codigo" name="codigo" required>
+                </div>
+                <div class="col-md-3">
+                    <label for="cantidad" class="form-label">Cantidad:</label>
+                    <div class="input-group">
+                        <button id="decrementar" class="btn btn-primary" type="button" disabled>-</button>
+                        <input type="number" class="form-control" id="cantidad" name="cantidad" value="1" min="1" required>
+                        <button id="incrementar" class="btn btn-primary" type="button">+</button>
+                    </div>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button class="btn btn-success w-100" type="submit">Agregar Producto</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Encabezado de productos -->
+        <div id="productos-encabezado">
+            <span class="columna columna-item">N°</span>
+            <span class="columna columna-codigo">Código</span>
+            <span class="columna columna-cant">Cant.</span>
+            <span class="columna columna-desc">Descripción</span>
+            <span class="columna columna-unitario">Unitario</span>
+            <span class="columna columna-subtotal">Subtotal</span>
+        </div>
+
+        <!-- Contenedor desplazable para la lista de productos -->
+        <div id="productos-container">
+            <!-- Elementos de productos, generados dinámicamente con Thymeleaf -->
+
+            <div class="producto-item" th:each="productoVendido, iterStat : ${productosVendidos}">
+                <span class="columna columna-item" th:text="${iterStat.index + 1}">1</span>
+                <span class="columna columna-codigo" th:text="${productoVendido.producto.codigo}">7501010178840</span>
+                <span class="columna columna-cant" th:text="${productoVendido.cantidad}">1</span>
+                <span class="columna columna-desc" th:text="${productoVendido.producto.nombre}">Leche Lala 1L</span>
+                <span class="columna columna-unitario" th:text="${productoVendido.producto.precioVenta}">$25.00</span>
+                <span class="columna columna-subtotal" th:text="${productoVendido.totalProducto}">$25.00</span>
+            </div>
+        </div>
+
+        <!--Operaciones en Producto y Cobro-->
+        <div class="container mt-4 mb-1">
+            <div class="row text-center mb-3">
+                <!-- Botones de Cancelar Producto y Checar Precio -->
+                <div class="col-md-4">
+                    <button class="btn btn-danger mb-2" data-bs-toggle="modal" data-bs-target="#modalCancelarProducto">
+                        Cancelar Producto
+                    </button>
+                    <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#modalChecarPrecio">
+                        Checar precio
+                    </button>
+                </div>
+
+                <!-- Selector de Tipo de Pago -->
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="pago" class="form-label">Tipo de Pago:</label>
+                        </div>
+                        <div class="col-md-8">
+                            <select class="form-select" id="pago" name="pago">
+                                <option value="efectivo">Efectivo</option>
+                                <option value="tarjeta">Tarjeta</option>
+                                <option value="vale">Vale</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total -->
+                <div class="col-md-4 text-end">
+                    <label for="totalVenta" class="fs-4 fw-semibold">Total: $</label>
+                    <input type="text" class="form-control d-inline-block w-auto" th:value="${totalVenta}" id="totalVenta" name="totalVenta" readonly>
+                </div>
+            </div>
+            <form action="#" th:action="@{/venta/finalizar}" method="post">
+                <div class="row text-center mb-2">
+                    <!-- Monto Recibido -->
+                    <div class="col-md-6 offset-md-2 text-end">
+                        <label for="importePagado" class="fs-5 fw-semibold">Monto Recibido: $</label>
+                        <input type="number" class="form-control d-inline-block w-auto" id="importePagado"
+                               name="importePagado" placeholder="$0.00">
+                    </div>
+
+                    <!-- Cambio -->
+                    <div class="col-md-4 text-end">
+                        <label for="cambio" class="fs-5 fw-semibold">Cambio: $</label>
+                        <input type="text" class="form-control d-inline-block w-auto" id="cambio" name="cambio"
+                               readonly>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Botón de Cancelar -->
+                    <div class="col-md-4 offset-md-8 text-end">
+                        <button class="btn btn-success mt-2 fw-semibold" type="submit">COBRAR</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="row">
+                <!-- Botón de Cancelar Venta -->
+                <div class="col-md-4 offset-md-8 text-end">
+                    <button class="btn btn-danger mt-2 fw-semibold" data-bs-toggle="modal" data-bs-target="#modalCancelarVenta">
+                        CANCELAR VENTA
+                    </button>
+                </div>
+            </div>
+
+
+            <div th:if="${mensajeExito}" class="alert alert-success" role="alert">
+                <span th:text="${mensajeExito}"></span>
+            </div>
+
+            <!-- Mensaje de error -->
+            <div th:if="${error}" class="alert alert-danger" role="alert">
+                <span th:text="${error}"></span>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- Incluir el modal como fragmento -->
+<!-- Modal checar Precio -->
+<div th:replace="~{plantillas/modals/modal-checar-precio :: modalChecarPrecio}"></div>
+<!--Modal cancelar Producto-->
+<div th:replace="~{plantillas/modals/modal-cancelar-producto :: modalCancelarProducto}"></div>
+<!-- Modal cancelar Venta -->
+<div th:replace="~{plantillas/modals/modal-cancelar-venta :: modalCancelarVenta}"></div>
+
+<footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+
+<script>
+    document.getElementById("importePagado").addEventListener("input", function() {
+        const totalVenta = parseFloat(document.getElementById("totalVenta").value) || 0;
+        const importePagado = parseFloat(this.value) || 0;
+        const cambio = importePagado - totalVenta;
+
+        // Actualiza el valor del campo cambio
+        document.getElementById("cambio").value = cambio >= 0 ? cambio.toFixed(2) : "0.00";
+    });
+</script>
+<script>
+    // Obtener los elementos
+    const cantidadInput = document.getElementById('cantidad');
+    const incrementarBtn = document.getElementById('incrementar');
+    const decrementarBtn = document.getElementById('decrementar');
+
+    // Función para actualizar los botones en función del valor actual
+    function actualizarBotones() {
+        const cantidad = parseInt(cantidadInput.value, 10);
+        decrementarBtn.disabled = (cantidad <= 1);
+    }
+
+    // Evento para el botón "+"
+    incrementarBtn.addEventListener('click', () => {
+        cantidadInput.value = parseInt(cantidadInput.value, 10) + 1;
+        actualizarBotones();
+    });
+
+    // Evento para el botón "-"
+    decrementarBtn.addEventListener('click', () => {
+        const nuevaCantidad = parseInt(cantidadInput.value, 10) - 1;
+        if (nuevaCantidad >= 1) {
+            cantidadInput.value = nuevaCantidad;
+        }
+        actualizarBotones();
+    });
+
+    // Inicializar el estado de los botones cuando se carga la página
+    actualizarBotones();
+</script>
+<script>
+    function autorizarCancelarProducto() {
+    const nombreGerente = document.getElementById("nombreGerente").value;
+    const passwordGerente = document.getElementById("passwordGerente").value;
+
+    fetch('/validar-gerente', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: nombreGerente, password: passwordGerente })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.autorizado) {
+            document.getElementById("formCancelarProducto").submit();
+        } else {
+            alert("Autorización fallida. Verifica las credenciales del gerente.");
+        }
+    });
+}
+</script>
+<script>
+    function buscarProducto() {
+    const codigo = document.getElementById("codigoProductoCancelar").value.trim(); // Elimina espacios en blanco
+    console.log("Código ingresado:", codigo);
+
+    if (!codigo) {
+        alert("Por favor, ingrese un código de producto.");
+        return;
+    }
+
+    fetch(`/venta/buscarProducto?codigo=${codigo}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Producto no encontrado");
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Detalles del producto:", data);
+            document.getElementById("detalleCodigo").textContent = data.codigo;
+            document.getElementById("detalleDescripcion").textContent = data.descripcion;
+            document.getElementById("detalleCantidad").textContent = data.cantidad;
+            document.getElementById("hiddenCodigoProductoCancelar").value = data.codigo;
+        })
+        .catch(error => {
+            console.error("Error al buscar producto:", error);
+            alert(error.message);
+            document.getElementById("detalleCodigo").textContent = "";
+            document.getElementById("detalleDescripcion").textContent = "";
+            document.getElementById("detalleCantidad").textContent = "";
+        });
+}
+
+</script>
+
+<!--script>
+    function buscarPrecio() {
+    const codigo = document.getElementById("codigoProductoChecar").value.trim();
+
+    if (!codigo) {
+        alert("Por favor, ingrese un código de producto.");
+        return;
+    }
+
+    fetch(`/venta/checarPrecio?codigo=${codigo}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status === 404 ? 'Producto no encontrado' : 'Error al buscar el producto'}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            const resultadoBusqueda = document.getElementById("resultadoBusquedaPrecio");
+            resultadoBusqueda.innerHTML = `
+                <tr>
+                    <td>${data.codigo}</td>
+                    <td>${data.descripcion}</td>
+                    <td>${data.precioVenta}</td>
+                    <td>${data.stock}</td>
+                </tr>`;
+        })
+        .catch(error => {
+            alert(error.message);
+            document.getElementById("resultadoBusquedaPrecio").innerHTML = `
+                <tr>
+                    <td colspan="4" class="text-center">No se encontró el producto.</td>
+                </tr>`;
+        });
+}
+</script-->
+<script>
+    function buscarPrecio() {
+    const codigo = document.getElementById("codigoProductoChecar").value.trim();
+
+    if (!codigo) {
+        alert("Por favor, ingrese un código de producto.");
+        return;
+    }
+
+    fetch(`/venta/checarPrecio?codigo=${codigo}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                // Mostrar el error si existe en la respuesta
+                alert(data.error);
+                document.getElementById("resultadoBusquedaPrecio").innerHTML = `
+                    <tr>
+                        <td colspan="4" class="text-center">No se encontró el producto.</td>
+                    </tr>`;
+            } else {
+                // Mostrar los datos del producto
+                const resultadoBusqueda = document.getElementById("resultadoBusquedaPrecio");
+                resultadoBusqueda.innerHTML = `
+                    <tr>
+                        <td>${data.codigo}</td>
+                        <td>${data.descripcion}</td>
+                        <td>${data.precioVenta}</td>
+                        <td>${data.stock}</td>
+                    </tr>`;
+            }
+        })
+        .catch(error => {
+            alert("Error al procesar la solicitud. Inténtalo de nuevo más tarde.");
+            console.error(error);
+        });
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      lang="es">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <title>Spring</title>
+
+    <link th:href="@{/iconos/fontawesome-free-5.15.4-web/css/all.min.css}" rel="stylesheet" >
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/bootstrap/css/jquery-ui.min.css}" rel="stylesheet">
+    <link th:href="@{/tema/estiloPV.css}" rel="stylesheet">
+</head>
+<body>
+<header th:fragment="header">
+    <!-- NAVBAR-->
+    <div class="container-fluid  text-center">
+        <div class="row">
+            <!-- INICIO -->
+            <div class="col-lg-2 navbar bg-dark">
+                <a class="navbar navbar-brand" style="color:white"
+                   th:href="@{/dashboard}" sec:authorize="isAuthenticated()"><i class="fas fa-store"></i> Punto de Venta</a>
+                <a class="navbar navbar-brand" style="color:white"
+                   th:href="@{/inicio}" sec:authorize="!isAuthenticated()"><i class="fas fa-store"></i> Punto de Venta</a>
+            </div>
+            <div class="col navbar navbar-expand-lg navbar-dark bg-dark">
+                <button class="navbar-toggler" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                        aria-controls="navbarNavDropdown" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!--M E N U-->
+                <!--VENTA-->
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown" sec:authorize="hasRole('CAJERO')">
+                            <a class="nav-link dropdown-toggle" href="#"
+                               id="navbarDropdownMenuLink" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-cart-plus"></i>
+                                Venta</a>
+                            <ul class="dropdown-menu"
+                                aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" th:href="@{/venta/registrar-venta}">Registrar Venta</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!--PRODUCTO-->
+                <div class="collapse navbar-collapse" id="navbarNavDropdown3">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown" sec:authorize="hasRole('CAJERO') or hasRole('GERENTE')">
+                            <a
+                                    class="nav-link dropdown-toggle" href="#"
+                                    id="navbarDropdownMenuLink3" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-shopping-basket"
+                                                                                       aria-hidden="true"></i> Producto</a>
+                            <ul class="dropdown-menu"
+                                aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" th:href="@{/producto/alta-producto}">Agregar Producto</a>
+                                </li>
+                                <li><a class="dropdown-item" th:href="@{/producto/lista-producto}">Gestionar
+                                    Producto</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- CATEGORIA -->
+                <div class="collapse navbar-collapse" id="navbarNavDropdown5">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown" sec:authorize="hasRole('CAJERO') or hasRole('GERENTE')">
+                            <a class="nav-link dropdown-toggle" href="#"
+                               id="navbarDropdownMenuLink5" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-tags"></i> Categoria</a>
+                            <ul class="dropdown-menu"
+                                aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" th:href="@{/categoria/alta-categoria}">Agregar
+                                    Categoría</a>
+                                </li>
+                                <li><a class="dropdown-item" th:href="@{/categoria/lista-categoria}">Gestionar
+                                    Categoría</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!--CORTE DE CAJA-->
+                <div class="collapse navbar-collapse" id="navbarNavDropdown2">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                            <a class="nav-link dropdown-toggle" href="#"
+                               id="navbarDropdownMenuLink2" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-money-bill-alt"></i>
+                                Corte de Caja</a>
+                            <ul class="dropdown-menu"
+                                aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" th:href="@{/corte-caja/generar-corte}" sec:authorize="hasRole('CAJERO')">Generar Corte de Caja</a>
+                                </li>
+                                <li><a class="dropdown-item" th:href="@{/corte-caja/consultar-corte}" sec:authorize="hasRole('GERENTE')">Consultar Cortes de Caja</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- REPORTES -->
+                <div class="collapse navbar-collapse" id="navbarNavDropdown6">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown" sec:authorize="hasRole('GERENTE')">
+                            <a
+                                    class="nav-link dropdown-toggle" href="#"
+                                    id="navbarDropdownMenuLink6" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-file-invoice"></i>
+                                Reportes</a>
+                            <ul class="dropdown-menu"
+                                aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" th:href="@{/reportes/ventas}">Reporte Ventas</a>
+                                </li>
+                                <li><a class="dropdown-item" th:href="@{/reportes/productos}">Reporte Productos Inventario</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- USUARIO -->
+                <div class="collapse navbar-collapse" id="navbarNavDropdown7">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown" sec:authorize="hasRole('GERENTE')">
+                            <a
+                                    class="nav-link dropdown-toggle" href="#"
+                                    id="navbarDropdownMenuLink7" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user-cog"></i>
+                                Usuario</a>
+                            <ul class="dropdown-menu"
+                                aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" th:href="@{/usuario/alta-usuario}">Agregar Usuario</a>
+                                </li>
+                                <li><a class="dropdown-item" th:href="@{/usuario/gestionar-usuario}">Gestionar Usuarios</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- LOGIN -->
+            <div class="col-lg-1 navbar bg-dark" sec:authorize="!isAuthenticated()">
+                <a class="btn btn-outline-primary" th:href="@{/login}">Login</a>
+            </div>
+            <!-- CERRAR SESION -->
+            <div class="col-lg-1 navbar bg-dark" sec:authorize="isAuthenticated()">
+                <form id="logout" th:action="@{/doLogout}" method="post">
+                    <button class="btn btn-outline-primary" type="submit">Cerrar Sesión</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-success" th:if="${success !=null}" th:text=${success}></div>
+    <div class="alert alert-danger" th:if="${error !=null}" th:text=${error}></div>
+    <div class="alert alert-warning" th:if="${warning !=null}" th:text=${warning}></div>
+    <div class="alert alert-info" th:if="${info !=null}" th:text=${info}></div>
+</header>
+<footer class="footer mt-3 py-3 " style="background-color: #900C3F; " th:fragment="footer">
+    <div class="container text-center text-white-50">
+        <br/> <img th:src="@{/imagen/super_no_bg.png}" height="150" width="500"/>
+        <p>Sistema de Punto de Venta</p>
+        <p><i class="far fa-copyright"></i>2024. Todos los derechos reservados.</p>
+    </div>
+    <script th:src="@{/bootstrap/js/jquery-3.6.3.js}"></script>
+    <script th:src="@{/bootstrap/js/jquery-ui.min.js}"></script>
+    <script th:src="@{/bootstrap/js/popper.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+</footer>
+</body>
+</html>

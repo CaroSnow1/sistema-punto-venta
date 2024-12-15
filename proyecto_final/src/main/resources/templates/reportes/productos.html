@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<header th:replace="~{plantillas/plantilla :: header}"></header>
+<main class="container text-center opacity-75 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+    <h1>Reporte de Productos</h1>
+
+    <!-- Contadores -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card text-white bg-warning">
+                <div class="card-header">Productos con Existencias Bajas</div>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${totalBajasExistencias}">0</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card text-white bg-danger">
+                <div class="card-header">Productos Agotados</div>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${totalAgotados}">0</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtro por Categoría -->
+    <form th:action="@{/reportes/productos}" method="get" class="col-md-5">
+        <label for="categoria">Filtrar por Categoría:</label>
+        <select id="categoria" name="categoria" class="form-select" onchange="this.form.submit()">
+            <option value="" th:selected="${categoriaSeleccionada == null}">Todas las Categorías</option>
+            <option th:each="cat : ${categorias}" th:value="${cat.idCategoria}"
+                    th:selected="${cat.idCategoria == categoriaSeleccionada}"
+                    th:text="${cat.nombreCategoria}"></option>
+        </select>
+    </form>
+
+    <h1 class="modal-title fs-5 mt-2">Información de los productos: </h1>
+    <hr>
+
+    <!-- Tabla de Productos -->
+    <table class="table table-striped mt-4">
+        <thead>
+        <tr>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th>Stock</th>
+            <th>Costo Compra</th>
+            <th>Precio Venta</th>
+            <th>Categoría</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="prod : ${productos}">
+            <td th:text="${prod.codigo}"></td>
+            <td th:text="${prod.nombre}"></td>
+            <td th:text="${prod.stock}"></td>
+            <td th:text="${prod.costoCompra}"></td>
+            <td th:text="${prod.precioVenta}"></td>
+            <td th:text="${prod.categoria.nombreCategoria}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <nav th:replace="~{plantillas/pag-nav::paginador}"></nav>
+</main>
+<footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+</body>
+</html>

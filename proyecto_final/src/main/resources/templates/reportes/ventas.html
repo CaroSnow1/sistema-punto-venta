@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<header th:replace="~{plantillas/plantilla :: header}"></header>
+<main class="container text-center opacity-75 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+    <h1 th:text="'Reporte de Ventas'"></h1>
+
+    <!-- Filtros -->
+    <form method="get" action="/reportes/ventas" class="mb-4">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="fechaInicio" class="form-label">Fecha Inicio:</label>
+                <input type="datetime-local" id="fechaInicio" name="fechaInicio"
+                       th:value="${fechaInicio}"
+                       class="form-control">
+            </div>
+            <div class="col-md-4">
+                <label for="fechaFin" class="form-label">Fecha Fin:</label>
+                <input type="datetime-local" id="fechaFin" name="fechaFin"
+                       th:value="${fechaFin}"
+                       class="form-control">
+            </div>
+            <div class="col-md-4">
+                <label for="tipoPago" class="form-label">Tipo de Pago:</label>
+                <select id="tipoPago" name="tipoPago" class="form-select">
+                    <option value="E" th:selected="${tipoPago == 'E'}">Efectivo</option>
+                    <option value="V" th:selected="${tipoPago == 'V'}">Vale</option>
+                    <option value="T" th:selected="${tipoPago == 'T'}">Tarjeta</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Generar Reporte</button>
+    </form>
+
+    <!-- Resumen -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Suma Total de Ventas</div>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${sumaVentas != null ? sumaVentas : 0.0}">0.0</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Ganancia Total</div>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${gananciasVentas != null ? gananciasVentas : 0.0}">0.0</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="h4 pb-2 mb-4 text-center text-secondary border-bottom border-secondary border-opacity-25">
+        <p>Lista de ventas</p>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Fecha y Hora</th>
+            <th>Total Venta</th>
+            <th>Tipo de Pago</th>
+            <th>Nombre Cajero</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="venta : ${ventas}">
+            <td th:text="${venta.fechaHoraVenta}">Fecha y Hora</td>
+            <td th:text="${venta.totalVenta}">Total Venta</td>
+            <td th:text="${venta.tipoPago}">Tipo de Pago</td>
+            <td th:text="${venta.nombreCajero}">Nombre Cajero</td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(ventas)}">
+            <td colspan="4" class="text-center">No se encontraron ventas para los filtros seleccionados.</td>
+        </tr>
+        </tbody>
+    </table>
+    <nav th:replace="~{plantillas/pag-nav::paginador}"></nav>
+</main>
+<footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+</body>
+</html>

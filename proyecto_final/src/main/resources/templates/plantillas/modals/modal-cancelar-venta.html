@@ -1,0 +1,46 @@
+<!-- Modal Confirmación Cancelar Venta -->
+<div th:fragment="modalCancelarVenta">
+    <div class="modal fade" id="modalCancelarVenta" tabindex="-1" aria-labelledby="modalCancelarVentaLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Cabecera del modal -->
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger" id="modalCancelarVentaLabel">Confirmar Cancelación de Venta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <!-- Cuerpo del modal -->
+                <div class="modal-body">
+                    <!-- Mensaje de confirmación -->
+                    <p>¿Estás seguro de que deseas cancelar esta venta? Esta acción no se puede deshacer.</p>
+
+                    <!-- Título de la sección de credenciales -->
+                    <div class="h4 pb-2 mb-4 text-center text-secondary border-bottom border-secondary border-opacity-25">
+                        <i class="fas fa-user-lock"></i> Aprobación Gerente
+                    </div>
+
+                    <!-- Formulario de credenciales del gerente -->
+                    <form id="formCancelarVenta" action="#" th:action="@{/venta/cancelar}" method="post">
+                        <div class="mb-3">
+                            <label for="usernameGerenteVenta" class="form-label">Usuario del Gerente:</label>
+                            <input type="text" class="form-control" id="usernameGerenteVenta" name="usernameGerente"
+                                   placeholder="Ingrese el usuario del gerente" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="passwordGerenteVenta" class="form-label">Contraseña del Gerente:</label>
+                            <input type="password" class="form-control" id="passwordGerenteVenta" name="passwordGerente"
+                                   placeholder="Ingrese la contraseña del gerente" required>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Pie del modal -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-danger" form="formCancelarVenta">Sí, Cancelar Venta</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
