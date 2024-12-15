@@ -39,7 +39,7 @@ El **Sistema de Punto de Venta (SPV)** está diseñado para digitalizar las oper
 
 1. Clonar el repositorio.
    ```bash
-   git clone https://github.com/usuario/sistema-punto-venta.git
+   git clone https://github.com/CaroSnow1/sistema-punto-venta.git
    ```
 2. Configurar la base de datos MariaDB:
     - Importar el archivo `schema_tienda_pf.sql` para crear el esquema.
