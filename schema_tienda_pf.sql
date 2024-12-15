@@ -120,7 +120,7 @@ CREATE TABLE venta(
 --
 -- TABLA PRODUCTO_VENDIDO
 --
-venta
+
 DROP TABLE IF EXISTS producto_vendido;
 CREATE TABLE producto_vendido(
 	id_producto_vendido INT UNSIGNED NOT NULL AUTO_INCREMENT,
