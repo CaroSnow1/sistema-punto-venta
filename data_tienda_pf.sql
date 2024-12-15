@@ -36,13 +36,13 @@ INSERT INTO usuario (username, usu_password, usu_status, usu_rol, nombre, ap_pat
 --
 
 INSERT INTO producto (codigo, nombre, stock, prod_status, costo_compra, precio_venta, id_categoria) VALUES
-('7501031311309', 'Coca Cola 1L', 100, 'ACTIVO', 15.00, 20.00, 2),
-('7501010178840', 'Leche Lala 1L', 50, 'ACTIVO', 18.00, 25.00, 4),
-('7501028304553', 'Arroz Grano Largo 1kg', 200, 'ACTIVO', 12.00, 18.00, 3),
-('7501038276653', 'Detergente Ariel 500ml', 80, 'ACTIVO', 25.00, 35.00, 5),
-('7501038276654', 'Shampoo Sedal 400ml', 60, 'ACTIVO', 30.00, 45.00, 6),
-('7501038276655', 'Papas Sabritas 52g', 150, 'ACTIVO', 8.00, 12.00, 7),
-('7501038276656', 'Vela Aromática 500g', 40, 'ACTIVO', 20.00, 30.00, 8);
+('7501031311309', 'Coca Cola 1L', 15, 'ACTIVO', 15.00, 20.00, 2),
+('7501010178840', 'Leche Lala 1L', 20, 'ACTIVO', 18.00, 25.00, 4),
+('7501028304553', 'Arroz Grano Largo 1kg', 20, 'ACTIVO', 12.00, 18.00, 3),
+('7501038276653', 'Detergente Ariel 500ml', 8, 'ACTIVO', 25.00, 35.00, 5),
+('7501038276654', 'Shampoo Sedal 400ml', 6, 'ACTIVO', 30.00, 45.00, 6),
+('7501038276655', 'Papas Sabritas 52g', 15, 'ACTIVO', 8.00, 12.00, 7),
+('7501038276656', 'Vela Aromática 500g', 4, 'ACTIVO', 20.00, 30.00, 8);
 
 --
 -- INSERTAR DATOS EN venta
