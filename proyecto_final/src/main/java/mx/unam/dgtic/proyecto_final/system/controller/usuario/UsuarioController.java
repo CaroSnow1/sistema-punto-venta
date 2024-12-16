@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,6 +75,7 @@ public class UsuarioController {
                               @RequestParam("horarioEntrada") String horarioEntrada,
                               @RequestParam("horarioSalida") String horarioSalida,
                               @RequestParam("genero") String genero,
+                              Authentication authentication, // Obtener el usuario autenticado
                               RedirectAttributes flash) {
         try {
             Usuario usuario = new Usuario();
@@ -90,6 +92,16 @@ public class UsuarioController {
             usuario.setGenero(genero);
             usuario.setFechaAlta(new Date()); // Fecha de alta como fecha actual
             usuario.setUsuStatus(0); // Estado inicial: Inactivo
+
+            // Obtener el gerente en sesión
+            Usuario gerente = usuarioService.obtenerPorUsuario(authentication.getName());
+            if (gerente == null) {
+                flash.addFlashAttribute("error", "No se pudo obtener el gerente de la sesión.");
+                return "redirect:/usuario/gestionar-usuario";
+            }
+
+            // Asignar el gerente como creador del usuario
+            usuario.setCreatedBy(gerente);
 
             // Guardar el usuario en la base de datos
             usuarioService.guardar(usuario);
